@@ -6,7 +6,10 @@
         <router-link class="filter-item" :to="{name: 'college'}" tag="li">高校检索</router-link>
         <router-link class="filter-item" :to="{name: 'major'}" tag="li">专业检索</router-link>
     </ul>
-    <router-view></router-view>
+    <!-- <keep-alive>切换组件保存在内存中  -->
+    <keep-alive :inclode="'overall'">
+        <router-view></router-view>
+    </keep-alive>
 </div>
 </template>
 <script>

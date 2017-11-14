@@ -20,7 +20,11 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+            "DEVELOPMENT": JSON.stringify(true),
+            "PRODUCTION": JSON.stringify(false)
+        })
     ],
     devtool: 'cheap-eval-source-map',
     resolve: {
@@ -32,7 +36,7 @@ module.exports = {
     },
     devServer: {
         open: true,
-        port: 8099,
+        port: 8090,
         inline: true,
         compress: true,
         hot: true

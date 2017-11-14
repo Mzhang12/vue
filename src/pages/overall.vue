@@ -40,6 +40,7 @@ import list_view from '../components/list_view.vue';
 import table_wrap from '../components/table_wrap.vue';
 import table_row from '../components/table_row.vue';
 export default {
+    name: 'overall',
     data: function() {
         return {
             subject_list: [],
@@ -111,6 +112,12 @@ export default {
         "tab-view": list_view,
         "table-wrap": table_wrap,
         "table-row": table_row
+    },
+    activated: function () {
+        console.log('组件activated')
+    },
+    deactivated: function () {
+        console.log('组件deactivated')
     }
 } 
 </script>
@@ -131,7 +138,7 @@ export default {
     width: 100%;
     border-bottom:1px solid #ccc;
     font-size: 16px;
-}
+} 
 .left-title {
     margin: 5px 0;
     text-indent: 10px;
