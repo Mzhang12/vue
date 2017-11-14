@@ -22,9 +22,14 @@
         <div class="main-list">
             <h2 class="tit">选考信息分析</h2>
             <p class="remind">*由于2020年拟在京招生普通高校专业（类）选考科目范围尚未公布，暂时调用2018拟在浙招生普通高校专业（类）选考科目范围，该数据仅供参考，正式文件公布后会即时替换！</p>
-            <tab-view class="tab_list" :title_="tab_title" :list_="tab_left_list"></tab-view>
-            <tab-view class="tab_list" :title_="tab_title" :list_="tab_left_list"></tab-view>
+            <tab-view class="tab_list" :list_="subject_list"></tab-view>
+            <tab-view class="tab_list" :list_="subject_list"></tab-view>
             <div class="clearfix"></div>
+        </div>
+        <div class="table">
+            <table-wrap :title="table_title">
+                 <table-row v-for="(item, index) in table_row" :key="index" :row="item"></table-row> 
+            </table-wrap>
         </div>
     </div>
 </template>
@@ -32,12 +37,14 @@
 import school_range from '../components/school_range.vue';
 import school_area from '../components/school_area.vue';
 import list_view from '../components/list_view.vue';
+import table_wrap from '../components/table_wrap.vue';
+import table_row from '../components/table_row.vue';
 export default {
     data: function() {
         return {
-            tab_title: [],
-            tab_left_list: [],
-            tab_right_list: [],
+            subject_list: [],
+            table_title: [],
+            table_row: []
         }
     },
     computed: {
@@ -75,27 +82,19 @@ export default {
             vm.$store.commit('updata_school_area', range_data)
         })
         this.$http.get("src/server/general.json").then(function(res) {
-            vm.tab_title = res.data.result.title;
-            var tab_list = res.data.result.analysisData;
-            var left_arr = [];
-            tab_list.forEach((value, index) => {
-                if (index < tab_list.length / 2) {
-                    left_arr[index] = value;
+            var analysisData = res.data.result.analysisData;
+            var arr = [];
+            analysisData.forEach((value, index) => {
+                if (index < analysisData.length / 2) {
+                    arr[index] = value;
                 }
             });
-            vm.tab_left_list = left_arr;
-            var right_arr = [];
-            var s = 0;
-            tab_list.forEach((value, index) => {
-                if (index >= tab_list.length / 2) {
-                    right_arr[s] = value;
-                    s++;
-                }
-            });
-            vm.tab_right_list = right_arr;
-            vm.college_title = res.data.result.title;
-            vm.college_detail = res.data.result.rows;
-
+            vm.subject_list = arr;
+        })
+        this.$http.get("src/server/tableList.json").then(function (res) {
+            vm.table_title = res.data.result.title;
+            vm.table_row = res.data.result.rows
+            console.log(res.data.result.rows)
         })
     },
     methods: {
@@ -109,7 +108,9 @@ export default {
     components: {
         "school-range": school_range,
         "school-area": school_area,
-        "tab-view": list_view
+        "tab-view": list_view,
+        "table-wrap": table_wrap,
+        "table-row": table_row
     }
 } 
 </script>
@@ -218,6 +219,16 @@ export default {
 
 .clearfix {
     clear: both;
+}
+.table {
+    margin-top: 30px;
+}
+.table table {
+    width: 100%;
+    text-align: center;
+}
+.table td {
+    line-height: 35px;
 }
 </style>
 

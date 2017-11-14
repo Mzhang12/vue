@@ -6,26 +6,22 @@
         </div>
         <h3>选考科目分析</h3>
         <div class="remind">*科目比例：要求所选选考科目的专业总数/条件范围内专业总数。以专业为例：经济统计学专业历史所占比例为66.7%，意为选考历史，66.7%的经济统计学专业均可报考。</div>
-        <tab-view class="tab_list" :title_="subject" :list_="subject_list"></tab-view>
-        <tab-view class="tab_list" :title_="subject" :list_="subject_list"></tab-view>
+        <tab-view class="tab_list" :list_="subject_list"></tab-view>
+        <tab-view class="tab_list" :list_="subject_list"></tab-view>
         <div class="clearfix"></div>
     </div>
 </template>
 <script>
 import list_view from '../components/list_view.vue'
 export default {
-    name: 'college',
     data: function() {
         return {
-            subject: [],
             subject_list: []
         }
     },
     created: function() {
         var vm = this;
         this.$http.get("src/server/general.json").then(function(res) {
-            console.log(res);
-            vm.subject = res.data.result.title;
             var analysisData = res.data.result.analysisData;
             var arr = [];
             analysisData.forEach((value, index) => {
